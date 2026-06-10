@@ -1,0 +1,115 @@
+<view class="page-shell confirm-page">
+  <view class="section address-card" bindtap="selectAddress">
+    <block wx:if="{{address}}">
+      <view class="addr-info">
+        <view class="addr-top">
+          <text class="addr-name">{{address.receiverName}}</text>
+          <text class="addr-phone">{{address.receiverPhone}}</text>
+        </view>
+        <text class="addr-detail">{{address.province}}{{address.city}}{{address.district}}{{address.detailAddress}}</text>
+      </view>
+      <van-icon name="arrow" color="#ccc" />
+    </block>
+    <block wx:else>
+      <view class="addr-empty">
+        <van-icon name="location-o" color="#FF6B35" size="20px" />
+        <text class="addr-empty-text">请选择收货地址后再确认订单</text>
+      </view>
+      <van-icon name="arrow" color="#ccc" />
+    </block>
+  </view>
+
+  <block wx:for="{{merchantOrders}}" wx:key="merchantId" wx:for-item="merchant">
+    <view class="section goods-section">
+      <view class="merchant-row">
+        <text class="section-title">{{merchant.shopName || '店铺订单'}}</text>
+        <text class="merchant-total">小计 ¥{{merchant.payAmount}}</text>
+      </view>
+      <block wx:for="{{merchant.items}}" wx:key="goodsId">
+        <view class="goods-item">
+          <van-image src="{{item.imageUrl}}" width="80px" height="80px" radius="8px" fit="cover" />
+          <view class="goods-info">
+            <text class="goods-name">{{item.goodsName}}</text>
+            <text class="goods-policy">{{item.goodsPolicyText}}</text>
+            <view class="goods-price-row">
+              <text class="goods-price">¥{{item.price}}</text>
+              <text class="goods-qty">x{{item.quantity}}</text>
+            </view>
+          </view>
+        </view>
+      </block>
+      <view class="merchant-summary">
+        <text class="merchant-summary-item">商品 ¥{{merchant.totalAmount}}</text>
+        <text class="merchant-summary-item">运费 {{merchant.freightAmount === '0.00' ? '包邮' : ('¥' + merchant.freightAmount)}}</text>
+      </view>
+    </view>
+  </block>
+
+  <view class="section" wx:if="{{merchantOrders.length === 0}}">
+    <van-empty description="选择地址后即可加载订单预览" />
+  </view>
+
+  <view class="section">
+    <van-field
+      value="{{buyerMessage}}"
+      label="买家留言"
+      placeholder="选填，给商家留言"
+      maxlength="100"
+      bind:change="onMessageInput"
+    />
+  </view>
+
+  <view class="com-note order-note" wx:if="{{hasIOSRestrictedItems}}">
+    <text class="com-note-title">iOS 端交易策略</text>
+    <text class="com-note-text">{{iosRestrictionNote}}</text>
+  </view>
+
+  <view class="com-note order-note">
+    <text class="com-note-title">{{testEnvironmentNote.title}}</text>
+    <text class="com-note-text">{{testEnvironmentNote.content}}</text>
+  </view>
+
+  <view class="section rule-section">
+    <view class="card-title-row">
+      <view>
+        <text class="section-title">下单说明</text>
+        <text class="section-subtitle">支付、配送、核销和退款相关说明</text>
+      </view>
+    </view>
+    <view class="rule-list">
+      <view class="rule-item" wx:for="{{orderRules}}" wx:key="*this">
+        <text class="rule-index">{{index + 1}}</text>
+        <text class="rule-text">{{item}}</text>
+      </view>
+    </view>
+    <view class="support-inline">
+      <text class="support-inline-label">查看更多：</text>
+      <text class="support-inline-link" wx:for="{{supportLinks}}" wx:key="title" bindtap="goSupport" data-url="{{item.url}}">{{item.title}}</text>
+    </view>
+  </view>
+
+  <view class="section price-section">
+    <view class="price-row">
+      <text class="price-label">商品总额</text>
+      <text class="price-value">¥{{totalAmount}}</text>
+    </view>
+    <view class="price-row">
+      <text class="price-label">运费</text>
+      <text class="price-value">{{freightAmount === '0.00' ? '包邮' : ('¥' + freightAmount)}}</text>
+    </view>
+    <view class="price-row total-row">
+      <text class="price-label">实付款</text>
+      <text class="price-total">¥{{payAmount}}</text>
+    </view>
+  </view>
+
+  <view class="submit-bar">
+    <view class="submit-total">
+      <text class="submit-label">合计</text>
+      <text class="submit-price">¥{{payAmount}}</text>
+    </view>
+    <van-button custom-class="submit-action-btn" type="danger" size="small" bindtap="submitOrder" disabled="{{merchantOrders.length === 0 || hasIOSRestrictedItems}}">
+      {{hasIOSRestrictedItems ? 'iOS 端暂不支持该权益下单' : '提交订单'}}
+    </van-button>
+  </view>
+</view>

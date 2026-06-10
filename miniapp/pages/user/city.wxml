@@ -1,0 +1,72 @@
+<view class="page-shell city-page">
+  <view class="search-card">
+  <!-- Search Bar -->
+  <van-search
+    value="{{keyword}}"
+    placeholder="搜索城市"
+    shape="round"
+    bind:change="onSearchChange"
+    bind:clear="onSearchClear"
+  />
+  </view>
+
+  <!-- Current City -->
+  <view class="current-city" wx:if="{{currentCity}}">
+    <text class="text-secondary text-sm">当前城市：</text>
+    <van-tag type="primary" color="#FF6B35" round size="medium">{{currentCity}}</van-tag>
+  </view>
+
+  <!-- Loading -->
+  <view class="loading-wrap flex-row justify-center" wx:if="{{loading}}">
+    <van-loading size="24px" color="#FF6B35">加载中...</van-loading>
+  </view>
+
+  <!-- Search Results -->
+  <view class="search-results" wx:if="{{keyword && searchResults.length > 0}}">
+    <view
+      class="search-item flex-row items-center justify-between"
+      wx:for="{{searchResults}}"
+      wx:key="id"
+      bindtap="selectCity"
+      data-id="{{item.id}}"
+      data-name="{{item.name}}"
+    >
+      <view class="flex-column">
+        <text class="city-name">{{item.name}}</text>
+        <text class="text-secondary text-sm">{{item.provinceName}}</text>
+      </view>
+      <van-icon wx:if="{{item.name === currentCity}}" name="success" color="#FF6B35" size="36rpx" />
+    </view>
+  </view>
+
+  <!-- No Search Results -->
+  <van-empty
+    wx:if="{{keyword && searchResults.length === 0 && !loading}}"
+    description="未找到相关城市"
+    image="search"
+  />
+
+  <!-- City Tree -->
+  <view class="city-tree" wx:if="{{!keyword && !loading}}">
+    <view class="province-group" wx:for="{{filteredTree}}" wx:key="id" wx:for-index="pIndex">
+      <view class="province-header flex-row items-center justify-between" bindtap="toggleProvince" data-index="{{pIndex}}">
+        <text class="province-name">{{item.name}}</text>
+        <van-icon name="{{item.expanded ? 'arrow-up' : 'arrow-down'}}" color="#999" size="28rpx" />
+      </view>
+      <view class="city-list" wx:if="{{item.expanded}}">
+        <view
+          class="city-item flex-row items-center justify-between"
+          wx:for="{{item.children}}"
+          wx:key="id"
+          wx:for-item="city"
+          bindtap="selectCity"
+          data-id="{{city.id}}"
+          data-name="{{city.name}}"
+        >
+          <text class="city-name {{city.name === currentCity ? 'active' : ''}}">{{city.name}}</text>
+          <van-icon wx:if="{{city.name === currentCity}}" name="success" color="#FF6B35" size="36rpx" />
+        </view>
+      </view>
+    </view>
+  </view>
+</view>

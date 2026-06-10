@@ -1,0 +1,70 @@
+<view class="page-shell shop-page" wx:if="{{shop}}">
+  <view class="shop-hero">
+    <view class="shop-avatar">{{shop.avatarText}}</view>
+    <view class="shop-main">
+      <text class="shop-name">{{shop.shopName}}</text>
+      <text class="shop-subtitle">信用分 {{shop.creditScore}} · 在售商品 {{shop.onSaleCount}}</text>
+      <text class="shop-intro">{{shop.shopIntro}}</text>
+      <view class="hero-pills">
+        <view class="pill-tag">品质店铺</view>
+        <view class="pill-tag">同城精选</view>
+      </view>
+    </view>
+  </view>
+
+  <view class="shop-card" wx:if="{{shop.shopNotice}}">
+    <view class="card-title-row">
+      <view>
+        <text class="card-title">店铺公告</text>
+        <text class="section-subtitle">下单前可以先看看店铺提醒</text>
+      </view>
+    </view>
+    <text class="card-text">{{shop.shopNotice}}</text>
+  </view>
+
+  <view class="shop-card">
+    <view class="card-title-row">
+      <view>
+        <text class="card-title">店铺服务</text>
+        <text class="section-subtitle">联系方式与基础信息</text>
+      </view>
+    </view>
+    <view class="meta-row">
+      <text class="meta-label">商品总数</text>
+      <text class="meta-value">{{shop.goodsCount || 0}}</text>
+    </view>
+    <view class="meta-row">
+      <text class="meta-label">联系电话</text>
+      <text class="meta-value">{{shop.contactPhone || '暂未设置'}}</text>
+    </view>
+    <view class="meta-row">
+      <text class="meta-label">联系邮箱</text>
+      <text class="meta-value">{{shop.contactEmail || '暂未设置'}}</text>
+    </view>
+    <van-button type="danger" plain block bindtap="callPhone">联系商家</van-button>
+  </view>
+
+  <view class="goods-card">
+    <view class="card-title-row">
+      <view>
+        <text class="card-title">店铺商品</text>
+        <text class="section-subtitle">继续逛逛这家店正在上架的好物</text>
+      </view>
+    </view>
+    <block wx:if="{{goodsList.length}}">
+      <view class="goods-grid">
+        <view class="goods-item" wx:for="{{goodsList}}" wx:key="id" data-id="{{item.id}}" bindtap="goGoodsDetail">
+          <van-image src="{{item.mainImage}}" width="100%" height="220rpx" radius="16rpx" fit="cover" />
+          <text class="goods-title">{{item.title}}</text>
+          <view class="goods-row">
+            <text class="goods-price">¥{{item.priceText}}</text>
+            <text class="goods-sales">销量 {{item.salesText}}</text>
+          </view>
+        </view>
+      </view>
+    </block>
+    <block wx:else>
+      <van-empty description="店铺暂时没有在售商品" />
+    </block>
+  </view>
+</view>

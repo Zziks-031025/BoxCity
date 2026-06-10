@@ -1,0 +1,36 @@
+<view class="page-shell com-page">
+  <view class="hero-card com-hero">
+    <text class="hero-title">账号注销</text>
+    <text class="hero-subtitle">注销前请确认订单、售后和投诉事项已处理完成。当前页面用于前台流程验收与交互说明。</text>
+  </view>
+
+  <view class="card com-card">
+    <text class="com-title">注销前须知</text>
+    <view class="com-list">
+      <block wx:for="{{cancellationTips}}" wx:key="*this">
+        <view class="com-list-item">
+          <text class="com-list-desc">{{item}}</text>
+        </view>
+      </block>
+    </view>
+  </view>
+
+  <view class="com-note">
+    <text class="com-note-title">温馨提示</text>
+    <text class="com-note-text">测试环境中提交注销申请后，会清除当前小程序登录态，用于验证前台交互与账号处理说明。</text>
+  </view>
+
+  <view class="com-form-card card">
+    <checkbox-group bindchange="onAgreeChange">
+      <label class="agree-row">
+        <checkbox value="agree" color="#E97840" />
+        <text class="agree-text">我已阅读并理解上述说明，确认发起账号注销申请</text>
+      </label>
+    </checkbox-group>
+  </view>
+
+  <view class="com-safe-space"></view>
+  <view class="com-submit-bar">
+    <van-button custom-class="com-submit-btn" type="danger" round bindtap="submitCancelRequest">提交注销申请</van-button>
+  </view>
+</view>

@@ -1,0 +1,23 @@
+<view class="page-shell com-page">
+  <view class="hero-card com-hero">
+    <text class="hero-title">{{serviceCenter.title}}</text>
+    <text class="hero-subtitle">{{serviceCenter.intro}}</text>
+  </view>
+
+  <view class="card com-card">
+    <text class="com-title">联系渠道</text>
+    <view class="com-list">
+      <block wx:for="{{serviceCenter.channels}}" wx:key="title">
+        <view class="com-list-item" bindtap="copyValue" data-value="{{item.value}}">
+          <text class="com-list-title">{{item.title}}：{{item.value}}</text>
+          <text class="com-list-desc">{{item.desc}}</text>
+        </view>
+      </block>
+    </view>
+  </view>
+
+  <view class="com-note">
+    <text class="com-note-title">建议</text>
+    <text class="com-note-text">涉及订单、售后、发票或投诉问题时，建议准备订单号、时间信息和截图材料后再联系平台，可提升处理效率。</text>
+  </view>
+</view>

@@ -1,0 +1,19 @@
+<view class="page-shell com-page">
+  <view class="hero-card com-hero">
+    <text class="hero-title">{{agreement.title}}</text>
+    <text class="hero-subtitle">{{agreement.summary}}</text>
+    <view class="com-meta-row">
+      <text class="com-meta-pill">{{agreement.version}}</text>
+      <text class="com-meta-pill">更新于 {{agreement.updatedAt}}</text>
+    </view>
+  </view>
+
+  <view class="card com-card">
+    <block wx:for="{{agreement.sections}}" wx:key="title">
+      <view class="com-section">
+        <text class="com-section-title">{{item.title}}</text>
+        <text class="com-section-text">{{item.content}}</text>
+      </view>
+    </block>
+  </view>
+</view>

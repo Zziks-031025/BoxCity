@@ -1,0 +1,33 @@
+<view class="page-shell com-page">
+  <view class="hero-card com-hero">
+    <text class="hero-title">帮助中心</text>
+    <text class="hero-subtitle">快速查看支付、发货、售后、隐私和账号相关的常见问题。</text>
+  </view>
+
+  <view class="card com-card">
+    <text class="com-title">常见问题</text>
+    <view class="com-list">
+      <block wx:for="{{helpTopics}}" wx:key="title">
+        <view class="com-list-item">
+          <text class="com-list-title">{{item.title}}</text>
+          <text class="com-list-desc">{{item.answer}}</text>
+        </view>
+      </block>
+    </view>
+  </view>
+
+  <view class="card com-card">
+    <text class="com-title">相关入口</text>
+    <view class="com-link-list">
+      <block wx:for="{{quickLinks}}" wx:key="title">
+        <view class="com-link-item" bindtap="goLink" data-url="{{item.url}}">
+          <view class="com-link-main">
+            <text class="com-link-title">{{item.title}}</text>
+            <text class="com-link-desc">{{item.desc}}</text>
+          </view>
+          <van-icon name="arrow" color="#B8A28F" size="24rpx" />
+        </view>
+      </block>
+    </view>
+  </view>
+</view>

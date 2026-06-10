@@ -1,0 +1,72 @@
+<view class="page-shell search-page">
+  <view class="search-header" style="padding-top: {{navPaddingTop}}px;">
+    <van-icon name="arrow-left" size="38rpx" color="#fff" bindtap="onBack" />
+    <view class="search-input-wrap hero-search">
+      <van-icon name="search" size="34rpx" color="#B88966" />
+      <input
+        class="search-input"
+        placeholder="搜索礼盒、城市、商品"
+        placeholder-class="search-input-placeholder"
+        value="{{keyword}}"
+        bindinput="onKeywordInput"
+        bindconfirm="onSearch"
+        focus="{{focused}}"
+        confirm-type="search"
+      />
+      <van-icon wx:if="{{keyword}}" name="clear" size="28rpx" color="#C8B2A0" bindtap="clearKeyword" />
+    </view>
+    <text class="cancel-btn" bindtap="onCancel">取消</text>
+  </view>
+
+  <view class="page-content search-content">
+    <view class="hero-card search-hero">
+      <text class="hero-title">搜索城市礼盒与实物商品</text>
+      <text class="hero-subtitle">从热门关键词开始，找到更适合你的同城好物、线下体验服务和品质店铺。</text>
+    </view>
+
+    <scroll-view scroll-y class="search-body">
+      <view class="section search-section" wx:if="{{searchHistory.length > 0}}">
+        <view class="section-header">
+          <view>
+            <text class="section-title">搜索历史</text>
+            <text class="section-subtitle">快速回到你刚刚浏览过的内容</text>
+          </view>
+          <view class="clear-btn" bindtap="clearHistory">
+            <van-icon name="delete-o" size="30rpx" color="#B88966" />
+            <text class="clear-text">清空</text>
+          </view>
+        </view>
+        <view class="keyword-list">
+          <view
+            class="keyword-tag"
+            wx:for="{{searchHistory}}"
+            wx:key="index"
+            bindtap="onHistoryTap"
+            data-keyword="{{item}}"
+          >{{item}}</view>
+        </view>
+      </view>
+
+      <view class="section search-section" wx:if="{{hotKeywords.length > 0}}">
+        <view class="section-header">
+          <view>
+            <text class="section-title">热门搜索</text>
+            <text class="section-subtitle">看看大家最近都在关注什么</text>
+          </view>
+        </view>
+        <view class="keyword-list">
+          <view
+            class="keyword-tag keyword-tag-hot"
+            wx:for="{{hotKeywords}}"
+            wx:key="index"
+            bindtap="onHotTap"
+            data-keyword="{{item.keyword || item}}"
+          >
+            <van-icon wx:if="{{index < 3}}" name="fire" size="22rpx" color="#FFF3E7" />
+            {{item.keyword || item}}
+          </view>
+        </view>
+      </view>
+    </scroll-view>
+  </view>
+</view>

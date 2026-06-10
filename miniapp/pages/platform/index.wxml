@@ -1,0 +1,25 @@
+<view class="page-shell com-page">
+  <view class="hero-card com-hero">
+    <text class="hero-title">{{platformInfo.name}}</text>
+    <text class="hero-subtitle">{{platformInfo.businessDescription}}</text>
+    <view class="com-meta-row">
+      <text class="com-meta-pill">主体公示</text>
+      <text class="com-meta-pill">经营说明</text>
+    </view>
+  </view>
+
+  <view class="card com-card">
+    <text class="com-title">平台公示信息</text>
+    <block wx:for="{{infoRows}}" wx:key="label">
+      <view class="com-section">
+        <text class="com-section-title">{{item.label}}</text>
+        <text class="com-section-text">{{platformInfo[item.valueKey]}}</text>
+      </view>
+    </block>
+  </view>
+
+  <view class="com-note">
+    <text class="com-note-title">售后与经营说明</text>
+    <text class="com-note-text">{{platformInfo.aftersaleDescription}}</text>
+  </view>
+</view>

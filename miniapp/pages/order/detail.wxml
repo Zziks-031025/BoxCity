@@ -1,0 +1,191 @@
+<view class="page-shell detail-page" wx:if="{{order}}">
+  <view class="status-banner {{order.statusClass}}">
+    <text class="status-icon">{{order.statusMark}}</text>
+    <text class="status-text">{{order.statusText}}</text>
+    <text class="status-desc">{{order.statusDesc}}</text>
+  </view>
+
+  <view class="section">
+    <view class="section-header">
+      <van-icon name="location-o" color="#FF6B35" size="16px" />
+      <text class="section-title">收货地址</text>
+    </view>
+    <view class="addr-info">
+      <view class="addr-top">
+        <text class="addr-name">{{order.receiverName}}</text>
+        <text class="addr-phone">{{order.receiverPhone}}</text>
+      </view>
+      <text class="addr-detail">{{order.receiverAddress}}</text>
+    </view>
+  </view>
+
+  <view class="section">
+    <view class="section-header">
+      <van-icon name="shop-o" color="#FF6B35" size="16px" />
+      <text class="section-title">{{order.shopName || '商品信息'}}</text>
+    </view>
+    <block wx:for="{{order.orderItems}}" wx:key="id" wx:for-item="item">
+      <view class="goods-row">
+        <van-image src="{{item.imageUrl}}" width="80px" height="80px" radius="10px" fit="cover" />
+        <view class="goods-meta">
+          <text class="goods-name">{{item.goodsName}}</text>
+          <text class="goods-policy">{{item.goodsPolicyText}}</text>
+          <view class="goods-price-row">
+            <text class="goods-price">¥{{item.price}}</text>
+            <text class="goods-qty">x{{item.quantity}}</text>
+          </view>
+        </view>
+      </view>
+    </block>
+  </view>
+
+  <view class="section" wx:if="{{order.logisticsCompany}}">
+    <view class="section-header">
+      <van-icon name="logistics" color="#FF6B35" size="16px" />
+      <text class="section-title">物流信息</text>
+    </view>
+    <view class="logistics-info" bindtap="goLogistics">
+      <view class="logistics-row">
+        <text class="logistics-label">快递公司</text>
+        <text class="logistics-value">{{order.logisticsCompany}}</text>
+      </view>
+      <view class="logistics-row">
+        <text class="logistics-label">快递单号</text>
+        <text class="logistics-value">{{order.logisticsNo}}</text>
+      </view>
+    </view>
+  </view>
+
+  <view class="section">
+    <view class="card-title-row">
+      <view>
+        <text class="section-title">商品类型与履约方式</text>
+        <text class="section-subtitle">帮助用户和审核人员明确这笔订单的交付方式</text>
+      </view>
+    </view>
+    <view class="com-meta-row">
+      <view class="com-meta-pill">{{order.goodsTypeLabel}}</view>
+      <view class="com-meta-pill">{{order.fulfillmentLabel}}</view>
+      <view class="com-meta-pill" wx:if="{{order.shopName}}">{{order.shopName}}</view>
+    </view>
+    <text class="com-summary">{{order.fulfillmentNotice}}</text>
+  </view>
+
+  <view class="com-note order-note" wx:if="{{order.iosPurchaseBlocked}}">
+    <text class="com-note-title">iOS 端展示策略</text>
+    <text class="com-note-text">{{order.iosRestrictionText}}</text>
+  </view>
+
+  <view class="com-note order-note">
+    <text class="com-note-title">{{testEnvironmentNote.title}}</text>
+    <text class="com-note-text">{{testEnvironmentNote.content}}</text>
+  </view>
+
+  <view class="section">
+    <view class="card-title-row">
+      <view>
+        <text class="section-title">订单说明</text>
+        <text class="section-subtitle">支付、发货、核销、退款与维权提示</text>
+      </view>
+    </view>
+    <view class="rule-list">
+      <view class="rule-item" wx:for="{{orderRules}}" wx:key="*this">
+        <text class="rule-index">{{index + 1}}</text>
+        <text class="rule-text">{{item}}</text>
+      </view>
+    </view>
+  </view>
+
+  <view class="section">
+    <view class="price-row">
+      <text class="price-label">商品总价</text>
+      <text class="price-value">¥{{order.totalAmount}}</text>
+    </view>
+    <view class="price-row">
+      <text class="price-label">运费</text>
+      <text class="price-value">{{order.freightAmount == 0 ? '免运费' : ('¥' + order.freightAmount)}}</text>
+    </view>
+    <view class="price-row total-row">
+      <text class="price-label">实付款</text>
+      <text class="price-total">¥{{order.payAmount}}</text>
+    </view>
+  </view>
+
+  <view class="section">
+    <view class="info-row">
+      <text class="info-label">订单编号</text>
+      <view class="info-value-row">
+        <text class="info-value">{{order.orderNo}}</text>
+        <text class="copy-btn" bindtap="copyOrderNo">复制</text>
+      </view>
+    </view>
+    <view class="info-row">
+      <text class="info-label">下单时间</text>
+      <text class="info-value">{{order.createTime}}</text>
+    </view>
+    <view class="info-row" wx:if="{{order.payTime}}">
+      <text class="info-label">支付时间</text>
+      <text class="info-value">{{order.payTime}}</text>
+    </view>
+    <view class="info-row" wx:if="{{order.buyerMessage}}">
+      <text class="info-label">买家留言</text>
+      <text class="info-value">{{order.buyerMessage}}</text>
+    </view>
+  </view>
+
+  <view class="section">
+    <view class="card-title-row">
+      <view>
+        <text class="section-title">客服与维权</text>
+        <text class="section-subtitle">订单相关问题可从这里继续处理</text>
+      </view>
+    </view>
+    <view class="support-list">
+      <view class="support-item" wx:for="{{supportLinks}}" wx:key="title" bindtap="goSupport" data-url="{{item.url}}">
+        <view class="support-main">
+          <text class="support-title">{{item.title}}</text>
+          <text class="support-desc">{{item.desc}}</text>
+        </view>
+        <van-icon name="arrow" color="#B8A28F" size="24rpx" />
+      </view>
+    </view>
+  </view>
+
+  <view class="action-bar" wx:if="{{order.status !== 4}}">
+    <block wx:if="{{order.status === 0}}">
+      <view class="order-action-item">
+        <van-button custom-class="order-action-btn" plain size="small" bindtap="cancelOrder">取消订单</van-button>
+      </view>
+      <view class="order-action-item">
+        <van-button wx:if="{{!order.iosPurchaseBlocked}}" custom-class="order-action-btn" type="danger" size="small" bindtap="goPay">去支付</van-button>
+        <van-button wx:else custom-class="order-action-btn" plain disabled size="small">iOS 端暂不支持该权益购买</van-button>
+      </view>
+    </block>
+    <block wx:elif="{{order.status === 1}}">
+      <view class="order-action-item order-action-item-span">
+        <van-button custom-class="order-action-btn" plain block size="small" bindtap="goAftersaleApply">申请退款</van-button>
+      </view>
+    </block>
+    <block wx:elif="{{order.status === 2}}">
+      <view class="order-action-item">
+        <van-button custom-class="order-action-btn" plain size="small" bindtap="goAftersaleApply">申请售后</van-button>
+      </view>
+      <view class="order-action-item">
+        <van-button custom-class="order-action-btn" type="danger" size="small" bindtap="confirmReceive">确认收货</van-button>
+      </view>
+    </block>
+    <block wx:elif="{{order.status === 3}}">
+      <view class="order-action-item">
+        <van-button custom-class="order-action-btn" plain size="small" bindtap="goAftersaleApply">申请售后</van-button>
+      </view>
+      <view class="order-action-item">
+        <van-button custom-class="order-action-btn" type="warning" size="small" bindtap="goReview">去评价</van-button>
+      </view>
+    </block>
+    <block wx:elif="{{order.status === 5}}">
+      <view class="order-action-item order-action-item-span">
+        <van-button custom-class="order-action-btn" type="danger" block size="small" bindtap="goAftersaleDetail">售后详情</van-button>
+      </view>
+    </block>
+  </view>
+</view>

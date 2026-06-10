@@ -1,0 +1,88 @@
+<view class="page-shell profile-page">
+  <!-- Avatar Section -->
+  <view class="avatar-section flex-column items-center" bindtap="chooseAvatar">
+    <view class="avatar-container">
+      <van-image
+        wx:if="{{avatar}}"
+        round
+        width="160rpx"
+        height="160rpx"
+        src="{{avatar}}"
+        fit="cover"
+      />
+      <view wx:else class="avatar-placeholder">
+        <van-icon name="photograph" size="60rpx" color="#ccc" />
+      </view>
+      <view class="avatar-edit-icon">
+        <van-icon name="edit" size="24rpx" color="#fff" />
+      </view>
+    </view>
+    <text class="text-secondary text-sm" style="margin-top: 12rpx;">点击更换头像</text>
+  </view>
+
+  <!-- Form Section -->
+  <view class="form-section">
+    <van-cell-group>
+      <van-field
+        label="昵称"
+        value="{{nickname}}"
+        placeholder="请输入昵称"
+        bind:change="onNicknameInput"
+        maxlength="20"
+        clearable
+      />
+
+      <van-cell title="性别" border="{{true}}">
+        <van-radio-group value="{{gender}}" direction="horizontal" bind:change="onGenderChange">
+          <van-radio name="{{0}}" custom-class="radio-item">未知</van-radio>
+          <van-radio name="{{1}}" custom-class="radio-item">男</van-radio>
+          <van-radio name="{{2}}" custom-class="radio-item">女</van-radio>
+        </van-radio-group>
+      </van-cell>
+
+      <van-cell
+        title="生日"
+        value="{{birthday || '请选择'}}"
+        is-link
+        bind:click="openDatePicker"
+      />
+    </van-cell-group>
+  </view>
+
+  <!-- Save Button -->
+  <view class="btn-section">
+    <view class="bottom-action-fill">
+      <van-button
+        custom-class="profile-save-btn"
+        type="primary"
+        block
+        round
+        color="#FF6B35"
+        loading="{{loading}}"
+        disabled="{{loading}}"
+        bind:click="saveProfile"
+      >
+        保存
+      </van-button>
+    </view>
+  </view>
+
+  <!-- Date Picker Popup -->
+  <van-popup
+    show="{{showDatePicker}}"
+    position="bottom"
+    round
+    bind:close="closeDatePicker"
+  >
+    <van-datetime-picker
+      type="date"
+      value="{{currentDate}}"
+      min-date="{{minDate}}"
+      max-date="{{maxDate}}"
+      bind:confirm="onDateConfirm"
+      bind:cancel="closeDatePicker"
+    />
+  </van-popup>
+
+  <van-toast id="van-toast" />
+</view>

@@ -1,0 +1,155 @@
+<!-- 首页模板 -->
+<!-- 整体结构：顶部Hero区域 → 轮播图 → 分类入口 → 推荐商品 → 热门商品 -->
+<scroll-view scroll-y class="page-shell home-page">
+  <!-- 顶部Hero区域：标题、搜索栏、统计数据 -->
+  <view class="home-hero">
+    <view class="hero-card home-hero-card">
+      <view class="section-eyebrow hero-eyebrow">城市实物好物</view>
+      <text class="hero-title">把城市里的实物好物带回家</text>
+      <text class="hero-subtitle">浏览同城精选店铺、礼盒清单与城市限定商品，下单后按收货地址完成发货、物流与售后。</text>
+
+      <!-- 搜索栏：点击跳转到搜索页 -->
+      <view class="search-bar hero-search" bindtap="onSearchTap">
+        <van-icon name="search" size="34rpx" color="#B88966" />
+        <text class="search-placeholder">搜索礼盒、城市、商品</text>
+      </view>
+
+      <!-- 统计数据展示：精选店铺数、推荐好物数、热门清单数 -->
+      <view class="hero-stats">
+        <view class="hero-stat" wx:for="{{heroStats}}" wx:key="label">
+          <text class="hero-stat-value">{{item.value}}</text>
+          <text class="hero-stat-label">{{item.label}}</text>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <view class="page-content">
+    <!-- 轮播图区域：自动播放、循环滚动，通过当前索引确定点击跳转目标 -->
+    <view class="banner-wrap" wx:if="{{banners.length > 0}}">
+      <swiper
+        class="banner-swiper"
+        autoplay
+        circular
+        indicator-dots
+        indicator-color="rgba(255,255,255,0.36)"
+        indicator-active-color="#FFF6EE"
+        interval="3000"
+        bindchange="onBannerChange"
+      >
+        <swiper-item
+          wx:for="{{banners}}"
+          wx:key="id"
+          bindtap="onBannerTap"
+        >
+          <van-image src="{{item.imageUrl}}" width="100%" height="100%" fit="cover" radius="0" />
+        </swiper-item>
+      </swiper>
+    </view>
+
+    <!-- 分类入口区域：宫格布局展示分类图标和名称，点击进入分类页 -->
+    <view class="section-card category-panel" wx:if="{{categories.length > 0}}">
+      <view class="section-header">
+        <view>
+          <text class="section-title">灵感分类</text>
+          <text class="section-subtitle">从城市生活场景里挑你感兴趣的一类</text>
+        </view>
+      </view>
+      <view class="category-grid">
+        <view
+          class="category-item"
+          wx:for="{{categories}}"
+          wx:key="id"
+          bindtap="onCategoryTap"
+          data-id="{{item.id}}"
+        >
+          <!-- 有图标则显示图标，否则显示分类名首字母作为占位 -->
+          <van-image
+            wx:if="{{item.icon}}"
+            src="{{item.icon}}"
+            width="92rpx"
+            height="92rpx"
+            fit="cover"
+            radius="28rpx"
+          />
+          <view wx:else class="category-fallback">{{item.initial}}</view>
+          <text class="category-name">{{item.name}}</text>
+          <text class="category-desc">{{item.desc}}</text>
+        </view>
+      </view>
+    </view>
+
+    <!-- 推荐商品区域：展示同城推荐的商品卡片列表 -->
+    <view class="section-wrap" wx:if="{{recommended.length > 0}}">
+      <view class="section-header section-heading">
+        <view>
+          <text class="section-title">同城推荐</text>
+          <text class="section-subtitle">适合现在就逛的一组城市实物好物</text>
+        </view>
+      </view>
+      <view class="goods-grid">
+        <view
+          class="goods-card goods-card-large"
+          wx:for="{{recommended}}"
+          wx:key="id"
+          bindtap="onGoodsTap"
+          data-id="{{item.id}}"
+        >
+          <view class="goods-image-wrap">
+            <van-image src="{{item.coverImage}}" width="100%" height="100%" fit="cover" radius="0" />
+            <view class="goods-chip">{{item.cityText}}</view>
+          </view>
+          <view class="goods-info">
+            <text class="goods-shop">{{item.shopText}}</text>
+            <text class="goods-title text-ellipsis-2">{{item.title}}</text>
+            <text class="goods-fulfillment">{{item.goodsTypeLabel}} · {{item.fulfillmentLabel}}</text>
+            <view class="goods-bottom">
+              <text class="goods-price"><text class="price-symbol">¥</text>{{item.priceText}}</text>
+              <text class="goods-sales">销量 {{item.salesCount}}</text>
+            </view>
+          </view>
+        </view>
+      </view>
+    </view>
+
+    <!-- 热门商品区域：展示近期热度上升的商品 -->
+    <view class="section-wrap" wx:if="{{hotGoods.length > 0}}">
+      <view class="section-header section-heading">
+        <view>
+          <text class="section-title">热门清单</text>
+          <text class="section-subtitle">近期热度上升的实物商品与礼盒</text>
+        </view>
+      </view>
+      <view class="goods-grid">
+        <view
+          class="goods-card goods-card-large"
+          wx:for="{{hotGoods}}"
+          wx:key="id"
+          bindtap="onGoodsTap"
+          data-id="{{item.id}}"
+        >
+          <view class="goods-image-wrap">
+            <van-image src="{{item.coverImage}}" width="100%" height="100%" fit="cover" radius="0" />
+            <view class="goods-chip goods-chip-hot">热门</view>
+          </view>
+          <view class="goods-info">
+            <text class="goods-shop">{{item.shopText}}</text>
+            <text class="goods-title text-ellipsis-2">{{item.title}}</text>
+            <text class="goods-fulfillment">{{item.goodsTypeLabel}} · {{item.fulfillmentLabel}}</text>
+            <view class="goods-bottom">
+              <text class="goods-price"><text class="price-symbol">¥</text>{{item.priceText}}</text>
+              <text class="goods-sales">销量 {{item.salesCount}}</text>
+            </view>
+          </view>
+        </view>
+      </view>
+    </view>
+
+    <!-- 加载中状态 -->
+    <view class="loading-wrap" wx:if="{{loading}}">
+      <van-loading size="48rpx" color="#FF6B35" />
+    </view>
+
+    <view class="page-bottom-space"></view>
+  </view>
+</scroll-view>

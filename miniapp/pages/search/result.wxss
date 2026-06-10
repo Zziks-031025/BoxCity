@@ -1,0 +1,163 @@
+.result-page {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+.search-header {
+  display: flex;
+  align-items: center;
+  gap: 16rpx;
+  padding: 20rpx;
+  padding-bottom: 20rpx;
+  background: linear-gradient(135deg, #FF6B35 0%, #FF8F60 100%);
+}
+
+.result-search {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 12rpx;
+  padding: 16rpx 22rpx;
+  border-radius: 999rpx;
+  background: rgba(255, 250, 245, 0.92);
+}
+
+.search-input {
+  flex: 1;
+  height: 48rpx;
+  line-height: 48rpx;
+  font-size: 28rpx;
+  color: var(--text-color);
+}
+
+.search-input-placeholder {
+  color: var(--text-tertiary);
+  font-size: 28rpx;
+}
+
+.search-btn {
+  font-size: 28rpx;
+  font-weight: 600;
+  color: #fff;
+  white-space: nowrap;
+}
+
+.result-content {
+  flex: 1;
+  padding-top: 18rpx;
+}
+
+.result-hero {
+  margin-bottom: 18rpx;
+}
+
+.result-body {
+  height: calc(100vh - 330rpx);
+}
+
+.goods-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16rpx;
+}
+
+.result-goods-card {
+  width: calc(50% - 8rpx);
+  overflow: hidden;
+}
+
+.goods-image-wrap {
+  position: relative;
+  height: 300rpx;
+  overflow: hidden;
+}
+
+.goods-chip {
+  position: absolute;
+  left: 16rpx;
+  top: 16rpx;
+  padding: 8rpx 14rpx;
+  border-radius: 999rpx;
+  background: rgba(47, 37, 31, 0.38);
+  color: #fff;
+  font-size: 20rpx;
+}
+
+.goods-info {
+  padding: 18rpx;
+}
+
+.goods-shop {
+  display: inline-flex;
+  padding: 8rpx 12rpx;
+  border-radius: 999rpx;
+  background: var(--primary-soft);
+  color: var(--primary-color);
+  font-size: 20rpx;
+  font-weight: 700;
+}
+
+.goods-title {
+  display: block;
+  min-height: 74rpx;
+  margin-top: 12rpx;
+  font-size: 26rpx;
+  color: var(--text-color);
+  line-height: 1.45;
+}
+
+.goods-fulfillment {
+  display: inline-flex;
+  align-items: center;
+  margin-top: 10rpx;
+  padding: 8rpx 14rpx;
+  border-radius: 999rpx;
+  background: #fbf4ec;
+  color: #9a6d2d;
+  font-size: 20rpx;
+  font-weight: 600;
+}
+
+.goods-bottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 14rpx;
+}
+
+.goods-price {
+  font-size: 32rpx;
+}
+
+.goods-sales {
+  font-size: 22rpx;
+}
+
+.loading-wrap {
+  display: flex;
+  justify-content: center;
+  padding: 90rpx 0;
+}
+
+.load-more {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12rpx;
+  padding: 24rpx;
+}
+
+.load-more-text {
+  font-size: 24rpx;
+}
+
+.no-more {
+  text-align: center;
+  padding: 28rpx;
+  font-size: 24rpx;
+}
+
+.bottom-space {
+  height: 48rpx;
+}

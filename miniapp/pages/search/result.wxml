@@ -1,0 +1,67 @@
+<view class="page-shell result-page">
+  <view class="search-header" style="padding-top: {{navPaddingTop}}px;">
+    <van-icon name="arrow-left" size="38rpx" color="#fff" bindtap="onBack" />
+    <view class="search-input-wrap result-search">
+      <van-icon name="search" size="30rpx" color="#B88966" />
+      <input
+        class="search-input"
+        placeholder="搜索礼盒、城市、商品"
+        placeholder-class="search-input-placeholder"
+        value="{{keyword}}"
+        bindinput="onKeywordInput"
+        bindconfirm="onSearch"
+        confirm-type="search"
+      />
+    </view>
+    <text class="search-btn" bindtap="onSearch">搜索</text>
+  </view>
+
+  <view class="page-content result-content">
+    <view class="hero-card result-hero">
+      <text class="hero-title">“{{keyword}}” 的搜索结果</text>
+      <text class="hero-subtitle">共找到 {{total}} 件相关商品，继续挑一挑更适合你的那一件。</text>
+    </view>
+
+    <scroll-view scroll-y class="result-body" bindscrolltolower="onReachBottom">
+      <view class="loading-wrap" wx:if="{{initialLoading}}">
+        <van-loading size="48rpx" color="#FF6B35" />
+      </view>
+
+      <van-empty wx:elif="{{!initialLoading && goodsList.length === 0}}" description="没有找到相关商品" image="search" />
+
+      <view class="goods-grid" wx:elif="{{goodsList.length > 0}}">
+        <view
+          class="goods-card result-goods-card"
+          wx:for="{{goodsList}}"
+          wx:key="id"
+          bindtap="onGoodsTap"
+          data-id="{{item.id}}"
+        >
+          <view class="goods-image-wrap">
+            <van-image src="{{item.coverImage}}" width="100%" height="100%" fit="cover" radius="0" />
+            <view class="goods-chip">{{item.cityText}}</view>
+          </view>
+          <view class="goods-info">
+            <text class="goods-shop">{{item.shopText}}</text>
+            <text class="goods-title text-ellipsis-2">{{item.title}}</text>
+            <text class="goods-fulfillment">{{item.goodsTypeLabel}} · {{item.fulfillmentLabel}}</text>
+            <view class="goods-bottom">
+              <text class="goods-price"><text class="price-symbol">¥</text>{{item.priceText}}</text>
+              <text class="goods-sales">销量 {{item.salesCount}}</text>
+            </view>
+          </view>
+        </view>
+      </view>
+
+      <view class="load-more" wx:if="{{loadingMore && !initialLoading}}">
+        <van-loading size="36rpx" color="#FF6B35" />
+        <text class="load-more-text">正在加载更多结果</text>
+      </view>
+      <view class="no-more" wx:if="{{!hasMore && goodsList.length > 0}}">
+        <text>没有更多结果了</text>
+      </view>
+
+      <view class="bottom-space"></view>
+    </scroll-view>
+  </view>
+</view>

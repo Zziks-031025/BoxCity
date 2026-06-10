@@ -1,0 +1,61 @@
+<view class="page-shell address-page">
+  <!-- Loading -->
+  <view class="loading-wrap flex-row justify-center" wx:if="{{loading}}">
+    <van-loading size="24px" color="#FF6B35">加载中...</van-loading>
+  </view>
+
+  <!-- Empty State -->
+  <van-empty
+    wx:if="{{!loading && addressList.length === 0}}"
+    description="暂无收货地址"
+    image="search"
+  >
+    <van-button round type="primary" color="#FF6B35" class="empty-btn" bind:click="addAddress">
+      新增收货地址
+    </van-button>
+  </van-empty>
+
+  <!-- Address List -->
+  <view class="address-list" wx:if="{{!loading && addressList.length > 0}}">
+    <van-swipe-cell
+      wx:for="{{addressList}}"
+      wx:key="id"
+      right-width="{{65}}"
+      data-id="{{item.id}}"
+      bind:close="onSwipeClose"
+    >
+      <view class="address-item" bindtap="handleAddressTap" data-id="{{item.id}}">
+        <view class="address-header flex-row items-center">
+          <text class="contact-name">{{item.name}}</text>
+          <text class="contact-phone">{{item.phone}}</text>
+          <van-tag wx:if="{{item.isDefault}}" type="primary" color="#FF6B35" plain round custom-class="default-tag">默认</van-tag>
+        </view>
+        <view class="address-detail">
+          <text>{{item.province}}{{item.city}}{{item.district}}{{item.detail}}</text>
+        </view>
+        <view class="address-actions flex-row items-center justify-between">
+          <view class="set-default flex-row items-center" catchtap="setDefault" data-id="{{item.id}}">
+            <van-icon name="{{item.isDefault ? 'checked' : 'circle'}}" color="{{item.isDefault ? '#FF6B35' : '#ccc'}}" size="36rpx" />
+            <text class="text-sm" style="margin-left: 8rpx; color: {{item.isDefault ? '#FF6B35' : '#999'}}">默认地址</text>
+          </view>
+          <view class="edit-btn flex-row items-center" catchtap="editAddress" data-id="{{item.id}}">
+            <van-icon name="edit" size="32rpx" color="#999" />
+            <text class="text-sm text-secondary" style="margin-left: 4rpx;">编辑</text>
+          </view>
+        </view>
+      </view>
+      <view slot="right" class="delete-btn flex-row items-center justify-center" catchtap="deleteAddress" data-id="{{item.id}}">
+        删除
+      </view>
+    </van-swipe-cell>
+  </view>
+
+  <!-- Bottom Add Button -->
+  <view class="bottom-bar safe-bottom" wx:if="{{!loading && addressList.length > 0}}">
+    <view class="bottom-action-fill">
+      <van-button custom-class="bottom-action-btn" block round type="primary" color="#FF6B35" bind:click="addAddress">
+        新增收货地址
+      </van-button>
+    </view>
+  </view>
+</view>

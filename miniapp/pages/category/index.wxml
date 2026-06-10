@@ -1,0 +1,102 @@
+<!-- 分类页面模板 -->
+<!-- 布局：左侧固定侧边栏（一级分类导航） + 右侧可滚动内容区（子分类+商品列表） -->
+<view class="page-shell category-page">
+  <!-- 左侧分类导航栏：使用 Vant Sidebar 组件实现 -->
+  <view class="sidebar-wrap">
+    <text class="sidebar-title">分类</text>
+    <text class="sidebar-subtitle">快速挑选</text>
+    <van-sidebar active-key="{{activeCategory}}" bind:change="onCategoryChange" class="sidebar">
+      <van-sidebar-item wx:for="{{categories}}" wx:key="id" title="{{item.name}}" />
+    </van-sidebar>
+  </view>
+
+  <!-- 右侧内容区域：子分类标签 + 排序筛选 + 商品列表 -->
+  <scroll-view scroll-y class="content-area" bindscrolltolower="onScrollToLower">
+    <view class="content-inner">
+      <!-- 当前分类信息卡片：显示分类名、描述、统计 -->
+      <view class="hero-card category-hero" wx:if="{{activeCategoryInfo}}">
+        <text class="hero-title">{{activeCategoryInfo.name}}</text>
+        <text class="hero-subtitle">{{activeCategoryInfo.summary}}</text>
+        <view class="hero-meta">
+          <view class="pill-tag">细分类 {{subCategories.length}}</view>
+          <view class="pill-tag">商品 {{resultCount}}</view>
+        </view>
+      </view>
+
+      <!-- 子分类标签栏：横向滚动，支持点击筛选 -->
+      <scroll-view scroll-x class="sub-category-scroll" wx:if="{{subCategories.length > 0}}">
+        <view class="sub-category-list">
+          <!-- "全部"标签：activeSubId为空时高亮 -->
+          <view
+            class="sub-tag {{activeSubId === '' ? 'sub-tag-active' : ''}}"
+            bindtap="onSubCategoryChange"
+            data-id=""
+          >全部</view>
+          <view
+            wx:for="{{subCategories}}"
+            wx:key="id"
+            class="sub-tag {{activeSubId === item.id ? 'sub-tag-active' : ''}}"
+            bindtap="onSubCategoryChange"
+            data-id="{{item.id}}"
+          >{{item.name}}</view>
+        </view>
+      </scroll-view>
+
+      <!-- 排序筛选栏 -->
+      <view class="filter-bar">
+        <view class="filter-head">
+          <text class="filter-title">排序方式</text>
+          <text class="filter-subtitle">共 {{resultCount}} 件结果</text>
+        </view>
+        <view class="filter-list">
+          <view
+            wx:for="{{sortOptions}}"
+            wx:key="value"
+            class="filter-item {{filters.sort === item.value ? 'filter-item-active' : ''}}"
+            bindtap="onSortChange"
+            data-sort="{{item.value}}"
+          >{{item.label}}</view>
+        </view>
+      </view>
+
+      <!-- 商品列表：卡片式布局，点击跳转商品详情 -->
+      <view class="goods-grid" wx:if="{{goodsList.length > 0}}">
+        <view
+          class="goods-card category-goods-card"
+          wx:for="{{goodsList}}"
+          wx:key="id"
+          bindtap="onGoodsTap"
+          data-id="{{item.id}}"
+        >
+          <view class="goods-image-wrap">
+            <van-image src="{{item.coverImage}}" width="100%" height="100%" fit="cover" radius="0" />
+            <view class="goods-chip">{{item.cityText}}</view>
+          </view>
+          <view class="goods-info">
+            <text class="goods-shop">{{item.shopText}}</text>
+            <text class="goods-title text-ellipsis-2">{{item.title}}</text>
+            <view class="goods-bottom">
+              <text class="goods-price"><text class="price-symbol">¥</text>{{item.priceText}}</text>
+              <text class="goods-sales">销量 {{item.salesCount}}</text>
+            </view>
+          </view>
+        </view>
+      </view>
+
+      <!-- 空状态提示 -->
+      <van-empty wx:if="{{!loadingMore && goodsList.length === 0}}" description="这个分类下还没有商品" image="search" />
+
+      <!-- 加载更多状态 -->
+      <view class="load-more" wx:if="{{loadingMore}}">
+        <van-loading size="36rpx" color="#FF6B35" />
+        <text class="load-more-text">正在加载更多商品</text>
+      </view>
+      <!-- 已加载全部提示 -->
+      <view class="no-more" wx:if="{{!hasMore && goodsList.length > 0}}">
+        <text>已经到底了，去别的分类看看吧</text>
+      </view>
+
+      <view class="bottom-space"></view>
+    </view>
+  </scroll-view>
+</view>

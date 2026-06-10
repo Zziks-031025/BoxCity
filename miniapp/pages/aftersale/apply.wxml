@@ -1,0 +1,39 @@
+<view class="page-shell aftersale-page" wx:if="{{order}}">
+  <view class="card">
+    <view class="title">售后商品</view>
+    <view class="goods-row" wx:if="{{order.items && order.items.length}}">
+      <van-image src="{{order.items[0].mainImage}}" width="80px" height="80px" radius="8px" fit="cover" />
+      <view class="goods-meta">
+        <text class="goods-name">{{order.items[0].goodsTitle}}</text>
+        <text class="goods-price">实付金额 ¥{{order.payAmount}}</text>
+      </view>
+    </view>
+  </view>
+
+  <view class="card">
+    <view class="title">售后类型</view>
+    <radio-group bindchange="onRefundTypeChange">
+      <label class="radio-item" wx:for="{{refundTypeOptions}}" wx:key="value">
+        <radio value="{{item.value}}" checked="{{refundType === item.value}}" color="#FF6B35" />
+        <text>{{item.label}}</text>
+      </label>
+    </radio-group>
+  </view>
+
+  <view class="card">
+    <van-field
+      value="{{refundReason}}"
+      label="退款原因"
+      type="textarea"
+      autosize
+      maxlength="200"
+      placeholder="请填写退款原因"
+      bind:change="onReasonInput"
+    />
+  </view>
+
+  <view class="submit-bar">
+    <view class="submit-price">退款金额 ¥{{refundAmount}}</view>
+    <van-button custom-class="submit-action-btn" type="danger" size="small" bindtap="submitRefund">提交申请</van-button>
+  </view>
+</view>

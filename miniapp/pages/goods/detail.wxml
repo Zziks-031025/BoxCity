@@ -1,0 +1,196 @@
+<!-- 商品详情页模板 -->
+<!-- 整体结构：商品图片轮播 → 价格信息 → 商家卡片 → 商品描述 → 履约方式 → 购买规则 → 服务支持 → 评价 → 底部操作栏 -->
+<view class="page-shell detail-page" wx:if="{{goods}}">
+  <!-- 商品图片轮播区域：支持左右滑动，点击可预览大图 -->
+  <swiper class="image-swiper" circular bindchange="onImageChange" indicator-dots="{{false}}">
+    <swiper-item wx:for="{{goods.images}}" wx:key="index" bindtap="onPreviewImage" data-index="{{index}}">
+      <van-image src="{{item}}" width="100%" height="760rpx" fit="cover" />
+    </swiper-item>
+  </swiper>
+  <!-- 图片计数器：显示当前第几张/共几张 -->
+  <view class="image-counter">
+    <text>{{activeImageIndex + 1}} / {{goods.images.length || 1}}</text>
+  </view>
+
+  <!-- 商品核心信息卡片：价格、标题、销量/库存、评分、服务标签 -->
+  <view class="info-card info-main">
+    <view class="price-row">
+      <text class="goods-price"><text class="price-symbol">¥</text>{{goods.priceText}}</text>
+      <text class="goods-original-price" wx:if="{{goods.originalPriceText}}">¥{{goods.originalPriceText}}</text>
+    </view>
+    <text class="goods-title">{{goods.title}}</text>
+    <view class="goods-meta">
+      <view class="meta-pill">销量 {{goods.salesCount}}</view>
+      <view class="meta-pill">库存 {{goods.stock || 0}}</view>
+      <view class="meta-pill" wx:if="{{goods.city}}">{{goods.city}}</view>
+    </view>
+    <!-- 商家评分：使用 Vant Rate 星级评分组件 -->
+    <view class="rating-summary">
+      <van-rate value="{{goods.merchantRating || 5}}" size="24rpx" color="#FF6B35" void-color="#eee" readonly allow-half />
+      <text class="rating-text">{{goods.merchantRatingText || '5.0'}} 分 · {{goods.reviewCount || 0}} 条评价</text>
+    </view>
+    <!-- 服务标签：商品类型、履约方式、城市 -->
+    <view class="service-row">
+      <view class="service-tag" wx:for="{{goods.serviceTags}}" wx:key="*this">{{item}}</view>
+    </view>
+  </view>
+
+  <!-- 商家入口卡片：点击进入店铺页面 -->
+  <view class="merchant-card merchant-entry" bindtap="onShopTap">
+    <view class="merchant-avatar-placeholder">{{goods.merchantInitial}}</view>
+    <view class="merchant-info">
+      <text class="merchant-name">{{goods.merchantName}}</text>
+      <text class="desc-text">查看店铺介绍、更多在售商品与履约服务说明</text>
+    </view>
+    <view class="enter-shop-btn">
+      <text>进店逛逛</text>
+      <van-icon name="arrow" size="24rpx" color="#FF6B35" />
+    </view>
+  </view>
+
+  <!-- 商品详情描述 -->
+  <view class="desc-card" wx:if="{{goods.description}}">
+    <view class="card-title-row">
+      <view>
+        <text class="card-title">商品详情</text>
+        <text class="section-subtitle">购买前先看看卖点与商品说明</text>
+      </view>
+    </view>
+    <text class="desc-text">{{goods.description}}</text>
+  </view>
+
+  <!-- 商品类型与履约方式说明 -->
+  <view class="desc-card">
+    <view class="card-title-row">
+      <view>
+        <text class="card-title">商品类型与履约方式</text>
+      </view>
+    </view>
+    <view class="com-meta-row">
+      <view class="com-meta-pill">{{goods.goodsTypeLabel}}</view>
+      <view class="com-meta-pill">{{goods.fulfillmentLabel}}</view>
+      <view class="com-meta-pill" wx:if="{{goods.city}}">{{goods.city}}</view>
+    </view>
+    <text class="com-summary">{{goods.fulfillmentNotice}}</text>
+  </view>
+
+  <!-- iOS端限制提示（仅数字权益类商品在iOS端显示） -->
+  <view class="com-note rule-note" wx:if="{{goods.iosPurchaseBlocked}}">
+    <text class="com-note-title">iOS 端展示策略</text>
+    <text class="com-note-text">{{goods.iosRestrictionText}}</text>
+  </view>
+
+  <!-- 测试环境提示 -->
+  <view class="com-note rule-note">
+    <text class="com-note-title">{{testEnvironmentNote.title}}</text>
+    <text class="com-note-text">{{testEnvironmentNote.content}}</text>
+  </view>
+
+  <!-- 购买规则列表 -->
+  <view class="desc-card">
+    <view class="card-title-row">
+      <view>
+        <text class="card-title">购买规则</text>
+        <text class="section-subtitle">发货、核销、售后和测试支付说明</text>
+      </view>
+    </view>
+    <view class="rule-list">
+      <view class="rule-item" wx:for="{{goodsRules}}" wx:key="*this">
+        <text class="rule-index">{{index + 1}}</text>
+        <text class="rule-text">{{item}}</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 服务与支持入口列表 -->
+  <view class="desc-card">
+    <view class="card-title-row">
+      <view>
+        <text class="card-title">服务与支持</text>
+        <text class="section-subtitle">需要帮助时可直接查看这些入口</text>
+      </view>
+    </view>
+    <view class="support-list">
+      <view class="support-item" wx:for="{{supportLinks}}" wx:key="title" bindtap="goSupport" data-url="{{item.url}}">
+        <view class="support-main">
+          <text class="support-title">{{item.title}}</text>
+          <text class="support-desc">{{item.desc}}</text>
+        </view>
+        <van-icon name="arrow" color="#B8A28F" size="24rpx" />
+      </view>
+    </view>
+  </view>
+
+  <!-- 买家评价区域：有评价时展示评价列表，无评价时显示空状态 -->
+  <view class="review-card" wx:if="{{reviews.length > 0}}">
+    <view class="card-title-row">
+      <view>
+        <text class="card-title">买家评价</text>
+        <text class="section-subtitle">来自真实下单用户的反馈</text>
+      </view>
+      <view class="view-all" bindtap="onViewAllReviews">
+        <text class="view-all-text">查看全部</text>
+        <van-icon name="arrow" size="24rpx" color="#999" />
+      </view>
+    </view>
+    <view class="review-list">
+      <view class="review-item" wx:for="{{reviews}}" wx:key="id">
+        <view class="review-header">
+          <view class="merchant-avatar-placeholder small">{{item.userInitial}}</view>
+          <view class="review-user-info">
+            <text class="review-username">{{item.userName || '匿名用户'}}</text>
+            <van-rate value="{{item.rating || 5}}" size="20rpx" color="#FF6B35" void-color="#eee" readonly />
+          </view>
+          <text class="review-date">{{item.createdAt}}</text>
+        </view>
+        <text class="review-content">{{item.content || '这位用户没有留下文字评价。'}}</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 无评价时的空状态 -->
+  <view class="desc-card" wx:else>
+    <view class="card-title-row">
+      <view>
+        <text class="card-title">买家评价</text>
+        <text class="section-subtitle">还没有评价，欢迎成为第一位分享体验的用户</text>
+      </view>
+      <view class="view-all" bindtap="onViewAllReviews">
+        <text class="view-all-text">查看全部</text>
+        <van-icon name="arrow" size="24rpx" color="#999" />
+      </view>
+    </view>
+  </view>
+
+  <!-- 底部操作栏占位（防止内容被固定定位的操作栏遮挡） -->
+  <view class="action-bar-placeholder"></view>
+</view>
+
+<!-- 页面加载中状态 -->
+<view class="loading-wrap" wx:if="{{loading}}">
+  <van-loading size="60rpx" color="#FF6B35" />
+</view>
+
+<!-- 底部固定操作栏：数量选择 + 加入购物车/立即购买按钮 -->
+<view class="action-bar" wx:if="{{goods}}">
+  <!-- iOS端数字权益商品：显示限制提示，隐藏购买按钮 -->
+  <block wx:if="{{goods.iosPurchaseBlocked}}">
+    <view class="action-policy-block">
+      <text class="action-policy-title">当前 iOS 端暂不展示该权益购买入口</text>
+      <text class="action-policy-desc">{{goods.iosRestrictionText}}</text>
+    </view>
+  </block>
+  <!-- 正常状态：显示数量步进器和操作按钮 -->
+  <block wx:else>
+    <view class="quantity-wrap">
+      <text class="quantity-label">购买数量</text>
+      <view class="quantity-stepper">
+        <van-stepper value="{{quantity}}" min="1" max="{{goods.stock || 99}}" bind:change="onQuantityChange" button-size="44rpx" input-width="60rpx" />
+      </view>
+    </view>
+    <view class="action-btns">
+      <van-button custom-class="action-btn action-btn-outline" bindtap="addToCart" color="#FF6B35" plain round size="small">加入购物车</van-button>
+      <van-button custom-class="action-btn action-btn-solid" bindtap="buyNow" color="#FF6B35" round size="small">立即购买</van-button>
+    </view>
+  </block>
+</view>

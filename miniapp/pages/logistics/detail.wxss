@@ -1,0 +1,85 @@
+.logistics-page {
+  min-height: 100vh;
+  padding: 20rpx;
+}
+
+.top-card,
+.track-card {
+  padding: 26rpx;
+  margin-bottom: 18rpx;
+  border-radius: 30rpx;
+}
+
+.row {
+  display: flex;
+  justify-content: space-between;
+  gap: 20rpx;
+  padding: 14rpx 0;
+  border-bottom: 1rpx solid var(--border-color);
+}
+
+.row:last-child {
+  border-bottom: none;
+}
+
+.label {
+  color: var(--text-secondary);
+  font-size: 26rpx;
+  flex-shrink: 0;
+}
+
+.value {
+  color: var(--text-color);
+  font-size: 26rpx;
+  text-align: right;
+}
+
+.status {
+  color: var(--primary-color);
+  font-weight: 700;
+}
+
+.title {
+  font-size: 30rpx;
+  font-weight: 700;
+  color: var(--text-color);
+  margin-bottom: 18rpx;
+}
+
+.track-item {
+  display: flex;
+  gap: 18rpx;
+  padding: 18rpx 0;
+}
+
+.dot {
+  width: 22rpx;
+  height: 22rpx;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #e97d43, #f1b067);
+  margin-top: 8rpx;
+  flex-shrink: 0;
+  box-shadow: 0 0 0 8rpx rgba(233, 125, 67, 0.12);
+}
+
+.track-content {
+  display: flex;
+  flex-direction: column;
+  gap: 8rpx;
+  padding-left: 18rpx;
+  border-left: 2rpx solid rgba(232, 122, 68, 0.18);
+}
+
+.track-item:last-child .track-content {
+  border-left-color: transparent;
+}
+
+.track-context {
+  font-size: 27rpx;
+  color: var(--text-color);
+  line-height: 1.6;
+}
+
+.track-time {
+  font-size: 23rpx;
+}

@@ -1,0 +1,95 @@
+<view class="page-shell login-page">
+  <view class="logo-area">
+    <view class="logo-icon">盒集</view>
+    <view class="logo-subtitle">同城生活里的惊喜好物与体验精选</view>
+  </view>
+
+  <view class="benefit-list">
+    <view class="benefit-pill">同城精选</view>
+    <view class="benefit-pill">订单同步</view>
+    <view class="benefit-pill">售后可追踪</view>
+  </view>
+
+  <view class="login-form" wx:if="{{step === 'login'}}">
+    <view class="panel-copy">
+      <text class="bind-title">欢迎来到盒集</text>
+      <text class="bind-desc">完成微信登录后，即可查看订单、收货地址、物流进度、售后记录与评价内容。</text>
+    </view>
+
+    <van-button
+      type="primary"
+      block
+      round
+      loading="{{loading}}"
+      custom-class="wx-login-btn"
+      bind:click="handleWxLogin">
+      <van-icon name="wechat" /> 微信一键登录
+    </van-button>
+
+    <view class="terms-card">
+      <text class="terms-text">登录即代表你已阅读并同意</text>
+      <view class="terms-links">
+        <text class="terms-link" bindtap="goAgreement">《用户协议》</text>
+        <text class="terms-sep">与</text>
+        <text class="terms-link" bindtap="goPrivacy">《隐私政策》</text>
+      </view>
+    </view>
+
+    <view class="extra-links">
+      <text class="extra-link" bindtap="goPlatformInfo">平台信息</text>
+      <text class="extra-link" bindtap="openPrivacyGuide">隐私保护指引</text>
+    </view>
+  </view>
+
+  <view class="bind-form" wx:if="{{step === 'bindPhone'}}">
+    <view class="panel-copy">
+      <text class="bind-title">绑定手机号</text>
+      <text class="bind-desc">首次登录需要绑定手机号，便于你接收订单、售后和客服联系通知。</text>
+    </view>
+
+    <van-cell-group>
+      <van-field
+        value="{{phone}}"
+        type="number"
+        maxlength="11"
+        placeholder="请输入手机号"
+        border="{{ true }}"
+        bind:input="onPhoneInput"
+      />
+      <van-field
+        value="{{smsCode}}"
+        type="number"
+        maxlength="6"
+        placeholder="请输入验证码"
+        border="{{ false }}"
+        bind:input="onCodeInput"
+        use-button-slot
+      >
+        <van-button
+          slot="button"
+          size="small"
+          type="primary"
+          disabled="{{countdown > 0}}"
+          bind:click="sendSmsCode">
+          {{countdown > 0 ? countdown + 's' : '获取验证码'}}
+        </van-button>
+      </van-field>
+    </van-cell-group>
+
+    <van-button
+      type="primary"
+      block
+      round
+      loading="{{loading}}"
+      custom-class="bind-btn"
+      bind:click="handleBindPhone">
+      确认绑定
+    </van-button>
+
+    <view class="bind-bottom-links">
+      <text class="extra-link" bindtap="goAgreement">用户协议</text>
+      <text class="extra-link" bindtap="goPrivacy">隐私政策</text>
+      <text class="extra-link" bindtap="goPlatformInfo">平台信息</text>
+    </view>
+  </view>
+</view>

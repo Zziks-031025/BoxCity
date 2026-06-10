@@ -1,0 +1,64 @@
+<view class="page-shell com-page">
+  <view class="hero-card com-hero">
+    <text class="hero-title">发票与凭证</text>
+    <text class="hero-subtitle">可填写测试环境下的开票申请信息，也可以将订单号作为交易凭证留存。</text>
+  </view>
+
+  <view class="com-form-card card">
+    <text class="com-title">开票申请</text>
+
+    <van-field
+      value="{{orderNo}}"
+      label="订单号"
+      placeholder="可填写需要开票的订单号"
+      data-field="orderNo"
+      bind:change="onInput"
+    />
+
+    <picker class="com-link-item" mode="selector" range="{{invoiceTypes}}" bindchange="onTypeChange">
+      <view class="com-link-main">
+        <text class="com-link-title">开票类型</text>
+        <text class="com-link-desc">{{invoiceTypes[invoiceTypeIndex]}}</text>
+      </view>
+      <van-icon name="arrow" color="#B8A28F" size="24rpx" />
+    </picker>
+
+    <van-field
+      value="{{title}}"
+      label="发票抬头"
+      placeholder="请输入个人姓名或企业名称"
+      data-field="title"
+      bind:change="onInput"
+    />
+    <van-field
+      value="{{taxNo}}"
+      label="税号"
+      placeholder="企业发票建议填写纳税人识别号"
+      data-field="taxNo"
+      bind:change="onInput"
+    />
+    <van-field
+      value="{{email}}"
+      label="接收邮箱"
+      placeholder="请输入邮箱，用于接收电子凭证"
+      data-field="email"
+      bind:change="onInput"
+    />
+  </view>
+
+  <view class="card com-card">
+    <text class="com-title">说明</text>
+    <view class="com-list">
+      <block wx:for="{{invoiceTips}}" wx:key="*this">
+        <view class="com-list-item">
+          <text class="com-list-desc">{{item}}</text>
+        </view>
+      </block>
+    </view>
+  </view>
+
+  <view class="com-safe-space"></view>
+  <view class="com-submit-bar">
+    <van-button custom-class="com-submit-btn" type="danger" round bindtap="submitRequest">提交申请</van-button>
+  </view>
+</view>

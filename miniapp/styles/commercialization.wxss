@@ -1,0 +1,225 @@
+.com-page {
+  min-height: 100vh;
+  padding-bottom: 40rpx;
+}
+
+.com-hero {
+  margin: 20rpx;
+}
+
+.com-card {
+  margin: 18rpx 20rpx 0;
+  padding: 28rpx;
+  border-radius: 30rpx;
+}
+
+.com-meta-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12rpx;
+  margin-top: 18rpx;
+}
+
+.com-meta-pill {
+  display: inline-flex;
+  align-items: center;
+  padding: 10rpx 18rpx;
+  border-radius: 999rpx;
+  background: var(--primary-soft);
+  color: var(--primary-color);
+  font-size: 22rpx;
+  font-weight: 600;
+}
+
+.com-title {
+  display: block;
+  font-size: 32rpx;
+  font-weight: 700;
+  color: var(--text-color);
+  margin-bottom: 18rpx;
+}
+
+.com-summary {
+  display: block;
+  font-size: 25rpx;
+  line-height: 1.8;
+  color: var(--text-secondary);
+}
+
+.com-section {
+  padding: 24rpx 0;
+  border-bottom: 1rpx solid var(--border-color);
+}
+
+.com-section:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.com-section-title {
+  display: block;
+  font-size: 28rpx;
+  font-weight: 700;
+  color: var(--text-color);
+  margin-bottom: 12rpx;
+}
+
+.com-section-text {
+  display: block;
+  font-size: 25rpx;
+  line-height: 1.8;
+  color: var(--text-secondary);
+}
+
+.com-list {
+  display: flex;
+  flex-direction: column;
+  gap: 18rpx;
+}
+
+.com-list-item {
+  padding: 22rpx 24rpx;
+  border-radius: 24rpx;
+  background: linear-gradient(180deg, #fffaf4 0%, #fffefb 100%);
+  border: 1rpx solid rgba(239, 226, 212, 0.92);
+}
+
+.com-list-title {
+  display: block;
+  font-size: 27rpx;
+  font-weight: 700;
+  color: var(--text-color);
+  margin-bottom: 8rpx;
+}
+
+.com-list-desc {
+  display: block;
+  font-size: 24rpx;
+  line-height: 1.7;
+  color: var(--text-secondary);
+}
+
+.com-link-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16rpx;
+}
+
+.com-link-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16rpx;
+  padding: 24rpx;
+  border-radius: 24rpx;
+  background: linear-gradient(180deg, #fffaf4 0%, #fffefb 100%);
+  border: 1rpx solid rgba(239, 226, 212, 0.92);
+}
+
+.com-link-main {
+  flex: 1;
+  min-width: 0;
+}
+
+.com-link-title {
+  display: block;
+  font-size: 28rpx;
+  font-weight: 700;
+  color: var(--text-color);
+}
+
+.com-link-desc {
+  display: block;
+  margin-top: 8rpx;
+  font-size: 24rpx;
+  line-height: 1.6;
+  color: var(--text-secondary);
+}
+
+.com-note {
+  margin: 18rpx 20rpx 0;
+  padding: 24rpx 28rpx;
+  border-radius: 26rpx;
+  background: linear-gradient(135deg, rgba(255, 242, 224, 0.95), rgba(255, 250, 244, 0.98));
+  border: 1rpx solid rgba(236, 204, 172, 0.9);
+  box-shadow: var(--shadow-soft);
+}
+
+.com-note-title {
+  display: block;
+  font-size: 26rpx;
+  font-weight: 700;
+  color: #9a5a2d;
+  margin-bottom: 10rpx;
+}
+
+.com-note-text {
+  display: block;
+  font-size: 24rpx;
+  line-height: 1.8;
+  color: #9a6e48;
+}
+
+.com-form-card {
+  margin: 18rpx 20rpx 0;
+  padding: 28rpx;
+  border-radius: 30rpx;
+}
+
+.com-submit-bar {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: 18rpx 20rpx;
+  padding-bottom: calc(18rpx + env(safe-area-inset-bottom));
+  background: rgba(255, 253, 249, 0.98);
+  border-top: 1rpx solid rgba(238, 225, 211, 0.98);
+  border-radius: 32rpx 32rpx 0 0;
+  box-shadow: 0 -12rpx 30rpx rgba(111, 83, 58, 0.08);
+}
+
+.com-submit-btn {
+  width: 100% !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+.com-safe-space {
+  height: 160rpx;
+}
+
+.com-field-tip {
+  margin-top: 16rpx;
+  font-size: 23rpx;
+  color: var(--text-secondary);
+  line-height: 1.7;
+}
+
+.com-upload-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16rpx;
+  margin-top: 18rpx;
+}
+
+.com-upload-item {
+  height: 180rpx;
+  border-radius: 22rpx;
+  overflow: hidden;
+  background: #fff5ea;
+  border: 1rpx dashed rgba(230, 179, 127, 0.9);
+}
+
+.com-upload-placeholder {
+  height: 180rpx;
+  border-radius: 22rpx;
+  background: linear-gradient(180deg, #fff7ee 0%, #fffdf9 100%);
+  border: 1rpx dashed rgba(230, 179, 127, 0.9);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24rpx;
+  color: var(--text-secondary);
+}

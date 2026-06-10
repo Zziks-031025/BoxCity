@@ -1,0 +1,58 @@
+<view class="page-shell com-page">
+  <view class="hero-card com-hero">
+    <text class="hero-title">投诉举报</text>
+    <text class="hero-subtitle">可提交订单争议、商家履约异常、隐私问题或发票问题。当前提交记录会保存到本地测试环境。</text>
+  </view>
+
+  <view class="com-form-card card">
+    <text class="com-title">问题信息</text>
+    <picker class="com-link-item" mode="selector" range="{{complaintTypes}}" bindchange="onTypeChange">
+      <view class="com-link-main">
+        <text class="com-link-title">问题类型</text>
+        <text class="com-link-desc">{{complaintTypes[complaintTypeIndex]}}</text>
+      </view>
+      <van-icon name="arrow" color="#B8A28F" size="24rpx" />
+    </picker>
+
+    <van-field
+      value="{{orderNo}}"
+      label="订单号"
+      placeholder="可选，填写后便于平台定位问题"
+      bind:change="onOrderNoInput"
+    />
+
+    <view class="com-section">
+      <text class="com-section-title">问题描述</text>
+      <textarea
+        class="form-textarea"
+        maxlength="300"
+        placeholder="请尽量写清楚问题经过、时间点和诉求"
+        value="{{description}}"
+        bindinput="onDescriptionInput"
+      />
+      <text class="com-field-tip">建议附带订单号、发货时间、退款状态和页面截图等信息。</text>
+    </view>
+
+    <view class="com-section">
+      <text class="com-section-title">举证图片</text>
+      <view class="com-upload-grid">
+        <block wx:for="{{images}}" wx:key="*this">
+          <view class="com-upload-item">
+            <image src="{{item}}" mode="aspectFill" style="width: 100%; height: 100%;" />
+          </view>
+        </block>
+        <view class="com-upload-placeholder" wx:if="{{images.length < 3}}" bindtap="chooseImages">上传图片</view>
+      </view>
+    </view>
+  </view>
+
+  <view class="com-note">
+    <text class="com-note-title">处理说明</text>
+    <text class="com-note-text">平台会结合订单、售后记录和举证材料进行核验。当前页面为前台商业化验收版本，数据先保存到本地测试环境。</text>
+  </view>
+
+  <view class="com-safe-space"></view>
+  <view class="com-submit-bar">
+    <van-button custom-class="com-submit-btn" type="danger" round bindtap="submitComplaint">提交投诉</van-button>
+  </view>
+</view>

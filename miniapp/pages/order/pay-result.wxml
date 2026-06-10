@@ -1,0 +1,42 @@
+<view class="page-shell result-page">
+  <view class="com-note result-note">
+    <text class="com-note-title">{{testEnvironmentNote.title}}</text>
+    <text class="com-note-text">{{testEnvironmentNote.content}}</text>
+  </view>
+
+  <block wx:if="{{status === 'processing'}}">
+    <van-loading size="48rpx" color="#FF6B35" />
+    <text class="result-title">正在发起测试支付</text>
+    <text class="result-desc">模拟支付处理中，请稍候片刻。</text>
+  </block>
+
+  <block wx:elif="{{status === 'success'}}">
+    <view class="result-icon success-icon">✓</view>
+    <text class="result-title">测试支付成功</text>
+    <text class="result-desc">共 {{successCount}} 笔订单已完成测试支付流转，可继续查看订单状态。</text>
+    <view class="order-list-box" wx:if="{{orderNos.length}}">
+      <block wx:for="{{orderNos}}" wx:key="*this">
+        <text class="order-line">{{item}}</text>
+      </block>
+    </view>
+    <view class="btn-group">
+      <van-button custom-class="result-btn" plain type="default" bindtap="goShopping">继续购物</van-button>
+      <van-button custom-class="result-btn" type="danger" bindtap="goOrderDetail">{{orderNos.length > 1 ? '查看订单列表' : '查看订单'}}</van-button>
+    </view>
+  </block>
+
+  <block wx:else>
+    <view class="result-icon fail-icon">×</view>
+    <text class="result-title">测试支付失败</text>
+    <text class="result-desc">{{errorMsg}}</text>
+    <view class="order-list-box" wx:if="{{orderNos.length}}">
+      <block wx:for="{{orderNos}}" wx:key="*this">
+        <text class="order-line">{{item}}</text>
+      </block>
+    </view>
+    <view class="btn-group">
+      <van-button custom-class="result-btn" plain type="default" bindtap="goShopping">返回首页</van-button>
+      <van-button custom-class="result-btn" type="danger" bindtap="retryPay">重新支付</van-button>
+    </view>
+  </block>
+</view>

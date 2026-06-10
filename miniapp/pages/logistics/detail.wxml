@@ -1,0 +1,33 @@
+<view class="page-shell logistics-page" wx:if="{{logistics}}">
+  <view class="top-card">
+    <view class="row">
+      <text class="label">快递公司</text>
+      <text class="value">{{logistics.logisticsCompany}}</text>
+    </view>
+    <view class="row">
+      <text class="label">快递单号</text>
+      <text class="value">{{logistics.logisticsNo}}</text>
+    </view>
+    <view class="row">
+      <text class="label">物流状态</text>
+      <text class="value status">{{logistics.logisticsStatus === 1 ? '已签收' : '运输中'}}</text>
+    </view>
+  </view>
+
+  <view class="track-card">
+    <view class="title">物流轨迹</view>
+    <block wx:for="{{logistics.tracks}}" wx:key="index">
+      <view class="track-item">
+        <view class="dot"></view>
+        <view class="track-content">
+          <text class="track-context">{{item.context}}</text>
+          <text class="track-time">{{item.time}}</text>
+        </view>
+      </view>
+    </block>
+  </view>
+</view>
+
+<view class="page-shell container" wx:else>
+  <van-empty description="暂无物流信息" />
+</view>

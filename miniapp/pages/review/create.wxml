@@ -1,0 +1,64 @@
+<view class="page-shell review-page">
+  <view class="card">
+    <view class="title">选择评价商品</view>
+    <block wx:if="{{items.length}}">
+      <view
+        class="item-card {{selectedItemId === item.id ? 'active' : ''}} {{item.reviewed ? 'disabled' : ''}}"
+        wx:for="{{items}}"
+        wx:key="id"
+        data-id="{{item.id}}"
+        bindtap="onSelectItem"
+      >
+        <van-image src="{{item.image}}" width="72px" height="72px" radius="10px" fit="cover" />
+        <view class="item-main">
+          <text class="item-title">{{item.title}}</text>
+          <text class="item-status">{{item.reviewed ? '已评价' : '待评价'}}</text>
+        </view>
+      </view>
+    </block>
+    <block wx:else>
+      <van-empty description="暂无可评价商品" />
+    </block>
+  </view>
+
+  <view class="card">
+    <view class="title">评分</view>
+    <van-rate value="{{rating}}" size="36rpx" color="#FF6B35" bind:change="onRateChange" />
+  </view>
+
+  <view class="card">
+    <view class="title">评价内容</view>
+    <van-field
+      value="{{content}}"
+      type="textarea"
+      autosize
+      maxlength="200"
+      placeholder="分享一下收到商品后的感受吧"
+      bind:change="onContentInput"
+    />
+  </view>
+
+  <view class="card">
+    <view class="title-row">
+      <text class="title">评价图片</text>
+      <text class="tip">最多 3 张</text>
+    </view>
+    <view class="image-grid">
+      <view class="image-box" wx:for="{{images}}" wx:key="index">
+        <image class="preview-image" src="{{item}}" mode="aspectFill" />
+        <text class="remove-btn" data-index="{{index}}" bindtap="removeImage">×</text>
+      </view>
+      <view class="upload-box" bindtap="chooseImages" wx:if="{{images.length < 3}}">
+        <text class="upload-plus">+</text>
+      </view>
+    </view>
+  </view>
+
+  <view class="submit-wrap">
+    <view class="bottom-action-fill">
+      <van-button custom-class="review-submit-btn" type="danger" block bindtap="submitReview" loading="{{submitting}}" disabled="{{!selectedItemId}}">
+        提交评价
+      </van-button>
+    </view>
+  </view>
+</view>

@@ -1,0 +1,123 @@
+<view class="page-shell user-page">
+  <view class="user-hero">
+    <view class="user-card">
+      <view class="user-info flex-row items-center" bindtap="onProfileTap">
+        <view class="avatar-wrap">
+          <van-image
+            wx:if="{{userInfo.avatar}}"
+            round
+            width="120rpx"
+            height="120rpx"
+            src="{{userInfo.avatar}}"
+            fit="cover"
+          />
+          <view wx:else class="avatar-default">
+            <van-icon name="manager" size="60rpx" color="#fff" />
+          </view>
+        </view>
+        <view class="user-detail flex-column">
+          <text class="nickname">{{isLogin ? userInfo.nickname : '点击微信登录'}}</text>
+          <text class="phone text-sm">{{isLogin && userInfo.phone ? userInfo.phone : welcomeText}}</text>
+        </view>
+        <van-icon name="arrow" class="arrow-icon" color="#fff" />
+      </view>
+    </view>
+
+    <view class="quick-summary">
+      <view class="summary-card">
+        <text class="summary-num">{{orderCounts.unpaid}}</text>
+        <text class="summary-text">待付款</text>
+      </view>
+      <view class="summary-card">
+        <text class="summary-num">{{orderCounts.unshipped}}</text>
+        <text class="summary-text">待发货</text>
+      </view>
+      <view class="summary-card">
+        <text class="summary-num">{{orderCounts.unreceived}}</text>
+        <text class="summary-text">待收货</text>
+      </view>
+      <view class="summary-card">
+        <text class="summary-num">{{orderCounts.completed}}</text>
+        <text class="summary-text">已完成</text>
+      </view>
+    </view>
+  </view>
+
+  <view class="page-content user-content">
+    <view class="section-card">
+      <view class="section-header flex-row items-center justify-between" bindtap="goAllOrders">
+        <view>
+          <text class="section-title">我的订单</text>
+          <text class="section-subtitle">快速查看交易进度、物流和售后状态</text>
+        </view>
+        <view class="flex-row items-center">
+          <text class="text-secondary text-sm">全部订单</text>
+          <van-icon name="arrow" color="#999" size="24rpx" />
+        </view>
+      </view>
+      <view class="order-grid flex-row">
+        <view class="order-item flex-column items-center" bindtap="goOrderList" data-status="0">
+          <view class="order-icon-wrap">
+            <van-icon name="balance-pay" size="44rpx" color="#FF6B35" />
+            <view class="badge" wx:if="{{orderCounts.unpaid > 0}}">{{orderCounts.unpaid > 99 ? '99+' : orderCounts.unpaid}}</view>
+          </view>
+          <text class="order-label">待付款</text>
+        </view>
+        <view class="order-item flex-column items-center" bindtap="goOrderList" data-status="1">
+          <view class="order-icon-wrap">
+            <van-icon name="logistics" size="44rpx" color="#FF6B35" />
+            <view class="badge" wx:if="{{orderCounts.unshipped > 0}}">{{orderCounts.unshipped > 99 ? '99+' : orderCounts.unshipped}}</view>
+          </view>
+          <text class="order-label">待发货</text>
+        </view>
+        <view class="order-item flex-column items-center" bindtap="goOrderList" data-status="2">
+          <view class="order-icon-wrap">
+            <van-icon name="send-gift-o" size="44rpx" color="#FF6B35" />
+            <view class="badge" wx:if="{{orderCounts.unreceived > 0}}">{{orderCounts.unreceived > 99 ? '99+' : orderCounts.unreceived}}</view>
+          </view>
+          <text class="order-label">待收货</text>
+        </view>
+        <view class="order-item flex-column items-center" bindtap="goOrderList" data-status="3">
+          <view class="order-icon-wrap">
+            <van-icon name="completed" size="44rpx" color="#FF6B35" />
+            <view class="badge" wx:if="{{orderCounts.completed > 0}}">{{orderCounts.completed > 99 ? '99+' : orderCounts.completed}}</view>
+          </view>
+          <text class="order-label">已完成</text>
+        </view>
+      </view>
+    </view>
+
+    <block wx:for="{{menuSections}}" wx:key="title" wx:for-item="section">
+      <view class="section-card menu-section">
+        <view class="section-header">
+          <view>
+            <text class="section-title">{{section.title}}</text>
+            <text class="section-subtitle">{{section.subtitle}}</text>
+          </view>
+        </view>
+        <view class="menu-list">
+          <view
+            class="menu-item"
+            wx:for="{{section.items}}"
+            wx:key="title"
+            wx:for-item="menu"
+            data-url="{{menu.url}}"
+            data-need-login="{{menu.needLogin}}"
+            bindtap="onMenuTap"
+          >
+            <view class="menu-left">
+              <view class="menu-icon">
+                <van-icon name="{{menu.icon}}" size="34rpx" color="#FF6B35" />
+              </view>
+              <view class="menu-copy">
+                <text class="menu-title">{{menu.title}}</text>
+                <text class="menu-desc">{{menu.desc}}</text>
+              </view>
+            </view>
+            <van-icon name="arrow" color="#B8A28F" size="24rpx" />
+          </view>
+        </view>
+      </view>
+    </block>
+  </view>
+</view>

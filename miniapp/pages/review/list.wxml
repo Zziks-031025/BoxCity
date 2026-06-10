@@ -1,0 +1,21 @@
+<view class="page-shell review-list-page">
+  <block wx:if="{{list.length}}">
+    <view class="review-card" wx:for="{{list}}" wx:key="id">
+      <view class="review-header">
+        <view class="avatar">{{item.userInitial}}</view>
+        <view class="review-main">
+          <text class="review-name">{{item.userName || '匿名用户'}}</text>
+          <van-rate value="{{item.rating || 5}}" size="20rpx" color="#FF6B35" void-color="#eee" readonly />
+        </view>
+        <text class="review-time">{{item.createdAt}}</text>
+      </view>
+      <text class="review-content">{{item.content || '该用户没有填写文字评价'}}</text>
+      <view class="image-row" wx:if="{{item.images && item.images.length}}">
+        <image class="review-image" wx:for="{{item.images}}" wx:key="index" src="{{item}}" mode="aspectFill" />
+      </view>
+    </view>
+  </block>
+  <block wx:else>
+    <van-empty description="暂时还没有评价" />
+  </block>
+</view>
